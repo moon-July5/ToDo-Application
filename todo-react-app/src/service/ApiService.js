@@ -15,13 +15,30 @@ export function call(api, method, request) {
     // GET method
     options.body = JSON.stringify(request);
   }
-  return fetch(options.url, options).then((response) =>
-    response.json().then((json) => {
-      if (!response.ok) {
-        // response.ok가 true이면 정상적인 리스폰스를 받은것, 아니면 에러 리스폰스를 받은것.
-        return Promise.reject(json);
-      }
-      return json;
+  return fetch(options.url, options)
+    .then((response) =>{
+        if (response.status === 200){
+          return response.json();
+        }else{
+          return Promise.reject(response);
+        }
     })
-  );
+    .catch((error) => {
+      // 추가된 부분
+      console.log(error.status);
+      if (error.status === 403) {
+        window.location.href = "/login"; // redirect
+      }
+      return Promise.reject(error);
+    });
+}
+
+export function signin(userDTO){
+  return call("/auth/signin", "POST", userDTO)
+  .then((response) => {
+    if(response.token){
+      // token이 존재하는 경우 Todo 화면으로 redirect
+      window.location.href = "/";
+    }
+  });
 }
