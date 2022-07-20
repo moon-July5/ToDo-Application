@@ -61,7 +61,7 @@ class App extends React.Component {
     var navigationBar =  (
       <AppBar position="static">
         <Toolbar>
-          <Grid justify="space-between" container>
+          <Grid justifyContent="space-between" container>
             <Grid item>
               <Typography variant="h6">오늘의 할일</Typography>
             </Grid>
@@ -98,7 +98,7 @@ class App extends React.Component {
 
     /* 선택한 content 렌더링 */
     return <div className="App">{content}</div>;
-    
+
   }
 }
 
